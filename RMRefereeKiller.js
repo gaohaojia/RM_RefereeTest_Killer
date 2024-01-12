@@ -40,7 +40,7 @@
         addAnswerButtons(); // 如果已经有questions数据，则直接添加按钮
     }
 
-
+    /*
     function cosineSimilarity(str1, str2) {
         // 将字符串分割成单词数组
         const words1 = str1.toLowerCase().split(/\s+/);
@@ -79,6 +79,7 @@
     
         return percentageSimilarity;
     }
+    */
     
 
     // 添加按钮到页面
@@ -220,11 +221,14 @@ function addAnswerButtons() {
         var button = document.createElement('button');
 
         // 获取问题文本
-        var questionText = Array.from(questionElement.querySelectorAll(".topichtml > div")).map(div => div.innerText.trim())
-
+        var questionParts = Array.from(questionElement.querySelectorAll(".topichtml > div")).map(div => div.innerText.trim());
+        var questionText = questionElement.querySelector(".topichtml").childNodes[0].nodeValue.trim() + questionParts.join(" ");
+        //console.log(questionText);
         // 在questions数组中查找问题
         var matchingQuestion = questions.find(function(q) {
-            return cosineSimilarity(q.questionText, questionText) >= 0.8;
+            // TODO: handle 正确/错误
+            //return cosineSimilarity(q.questionText, questionText) >= 0.8;
+            return q.questionText === questionText;
         });
 
         // 设置按钮文本和答案
