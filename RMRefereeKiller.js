@@ -184,16 +184,14 @@
     addButton();
 
     function chooseAnswer(questionElement, answer) {
-        if (answer === 'U') return; // 如果答案为'U'，则不执行任何操作
+        //alert("Going Return");;
+        if (answer === 'U' || answer === 'N') return; // 如果答案为'U'，则不执行任何操作
     
         // 获取选项元素列表
-        var options = questionElement.querySelectorAll('.ui-radio');
+        //alert("Passed Return");
+        var radios = questionElement.querySelectorAll('.ui-radio');
         var answerIndex = answer.charCodeAt(0) - 'A'.charCodeAt(0); // 将答案字符转换为索引（A -> 0, B -> 1, ...）
-    
-        // 点击对应的选项
-        if (answerIndex >= 0 && answerIndex < options.length) {
-            options[answerIndex].querySelector('.jqradio').click();
-        }
+        radios[answerIndex].click()
     }
 
 // 添加选择答案的按钮
@@ -214,19 +212,15 @@ function addAnswerButtons() {
         // 设置按钮文本和答案
         if (matchingQuestion) {
             button.innerHTML = '选择 ' + matchingQuestion.answer;
-            button.addEventListener('click', function() {
-                chooseAnswer(questionElement, matchingQuestion.answer);
-            });
+            chooseAnswer(questionElement, matchingQuestion.answer);
         } else {
-            button.innerHTML = '选择 N';
-            button.addEventListener('click', function() {
-                chooseAnswer(questionElement, 'N');
-            });
+            button.innerHTML = '未匹配到该问题';
         }
 
         button.style.marginLeft = '10px';
         questionElement.appendChild(button);
     });
+    
 }
 
 addAnswerButtons();
