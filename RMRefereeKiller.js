@@ -23,6 +23,46 @@
 
     var questions = JSON.parse(localStorage.getItem("questions") || "[]");
 
+    function cosineSimilarity(str1, str2) {
+        // 将字符串分割成单词数组
+        const words1 = str1.toLowerCase().split(/\s+/);
+        const words2 = str2.toLowerCase().split(/\s+/);
+    
+        // 创建词频向量
+        const vector1 = {};
+        const vector2 = {};
+    
+        // 填充词频向量
+        words1.forEach(word => {
+            vector1[word] = (vector1[word] || 0) + 1;
+        });
+    
+        words2.forEach(word => {
+            vector2[word] = (vector2[word] || 0) + 1;
+        });
+    
+        // 计算点积
+        let dotProduct = 0;
+        for (const word in vector1) {
+            if (vector2.hasOwnProperty(word)) {
+                dotProduct += vector1[word] * vector2[word];
+            }
+        }
+    
+        // 计算模长
+        const magnitude1 = Math.sqrt(Object.values(vector1).reduce((acc, val) => acc + val * val, 0));
+        const magnitude2 = Math.sqrt(Object.values(vector2).reduce((acc, val) => acc + val * val, 0));
+    
+        // 计算余弦相似度
+        const similarity = dotProduct / (magnitude1 * magnitude2);
+    
+        // 转换为百分比
+        const percentageSimilarity = (similarity * 100).toFixed(2);
+    
+        return percentageSimilarity;
+    }
+    
+
     // 添加按钮到页面
     function addButton() {
         var buttonCollect = document.createElement("button");
@@ -168,7 +208,7 @@ function addAnswerButtons() {
 
         // 在questions数组中查找问题
         var matchingQuestion = questions.find(function(q) {
-            return q.questionText === questionText;
+            return cosineSimilarity(q.questionText, questionText) >= 0.8;
         });
 
         // 设置按钮文本和答案
