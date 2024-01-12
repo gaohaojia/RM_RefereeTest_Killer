@@ -220,7 +220,7 @@ function addAnswerButtons() {
         var button = document.createElement('button');
 
         // 获取问题文本
-        var questionText = questionElement.querySelector('.topichtml').textContent.trim();
+        var questionText = Array.from(questionElement.querySelectorAll(".topichtml > div")).map(div => div.innerText.trim())
 
         // 在questions数组中查找问题
         var matchingQuestion = questions.find(function(q) {
