@@ -25,7 +25,7 @@
 
     // 如果localStorage中没有数据，则从URL获取JSON文件
     if (questions.length === 0) {
-        var jsonUrl = "https://github.com/ShiratsuYudachi/RM_RefereeTest_Killer/blob/main/answers.json"; // 替换为您的JSON文件URL
+        var jsonUrl = "https://raw.githubusercontent.com/ShiratsuYudachi/RM_RefereeTest_Killer/main/answers.json"; // 替换为您的JSON文件URL
         fetch(jsonUrl)
             .then(response => response.json())
             .then(data => {
