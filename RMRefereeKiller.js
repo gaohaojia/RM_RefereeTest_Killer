@@ -23,6 +23,24 @@
 
     var questions = JSON.parse(localStorage.getItem("questions") || "[]");
 
+    // 如果localStorage中没有数据，则从URL获取JSON文件
+    if (questions.length === 0) {
+        var jsonUrl = "https://github.com/ShiratsuYudachi/RM_RefereeTest_Killer/blob/main/answers.json"; // 替换为您的JSON文件URL
+        fetch(jsonUrl)
+            .then(response => response.json())
+            .then(data => {
+                questions = data; // 将获取的JSON数据赋值给questions数组
+                localStorage.setItem("questions", JSON.stringify(questions)); // 将数据存储到localStorage中
+                addAnswerButtons(); // 添加按钮
+            })
+            .catch(error => {
+                console.error("Error fetching JSON:", error);
+            });
+    } else {
+        addAnswerButtons(); // 如果已经有questions数据，则直接添加按钮
+    }
+
+
     function cosineSimilarity(str1, str2) {
         // 将字符串分割成单词数组
         const words1 = str1.toLowerCase().split(/\s+/);
